@@ -1,0 +1,26 @@
+{
+  "output": [
+    {
+      "musica": {
+        "type":"audio",
+        "title":"Il canto del Capro",
+        "file_id":"AwADBAADBwADZUfwCThRKbS1U25Ag"
+      }
+      
+    },
+    {"foto":{
+    	"type":"photo",
+    	"caption":"immagine di prova",
+    	"file_id":"AgADBAADqacxG2VH8AmtU9AKu__Wi2C3jzAABITGl3YlUnBY4IcCAAEC"
+     }
+     
+    },
+    {
+    	"perla":{
+    		"type":"text",
+    		"text":"Meglio un figlio in guerra che l'alcol per terra"
+    	}
+    	
+    }
+  ]
+}
