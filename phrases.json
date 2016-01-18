@@ -1,23 +1,44 @@
 {
-  "output":{
-      "musica": {
-        "type":"audio",
-        "title":"Il canto del Capro",
-        "file_id":"BQADBAADCgADZUfwCecAAfH4y3_WQQI"
-      },
-    "foto":{
-    	"type":"photo",
-    	"caption":"ecco a te",
-    	"file_id":"AgADBAADqqcxG2VH8Ak4mX2dz7phXHZDojAABGKKXAVrxuIYkOMBAAEC"
-     },
-    	"perla":{
-    		"type":"text",
-    		"text":"Meglio un figlio in guerra che l'alcol per terra"
-    	},
-      "/info":{
-        "type":"text",
-        "text":"prova a scrivere:\n\taudio\n\tfoto\n\tperla"
-      }
-    	
+  "output": {
+    "musica": {
+      "type": "audio",
+      "content": [
+        {
+          "title": "Il canto del Capro",
+          "file_id": "Il Canto del Capro.mp3"
+        }
+      ]
+    },
+    "foto": {
+      "type": "photo",
+      "content": [
+        {
+          "caption": "ecco a te",
+          "file_id": "Immagine1.jpg"
+        }
+      ]
+    },
+    "perla": {
+      "type": "text",
+      "content": [
+        {
+          "text": "Meglio un figlio in guerra che l'alcol per terra"
+        },
+        {
+          "text":"Il matrimonio è come una gabbia per topi, chi è fuori vorrebbe entrare e chi è dentro vorrebbe uscire"
+        },
+        {
+          "text":"test"
+        }
+      ]
+    },
+    "/info": {
+      "type": "text",
+      "content": [
+        {
+          "text": "prova a scrivere:\n\taudio\n\tfoto\n\tperla"
+        }
+      ]
     }
+  }
 }

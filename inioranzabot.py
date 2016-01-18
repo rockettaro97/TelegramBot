@@ -1,55 +1,55 @@
-import urllib2, json, urllib
+import urllib2, json, urllib, requests
 from pprint import pprint
+from random import randint
 
 basicUrl = "https://api.telegram.org/bot"
 token = "163052614:AAHAgAjpPkSGUOYv_fu1m9XcxDXyhDhsr2I/"
 
-phrasesFile = open("phrases.json")
-phrases = json.load(phrasesFile)
-phrasesFile.close()
+filesPath = "files/"
+
 
 def sendMessage(chat_id, text):
 	parameters = {'chat_id':chat_id, 'text':text}
-	TextData = urllib.urlencode(parameters)
-	requestText = urllib2.Request(basicUrl+token+"sendMessage", TextData)
-	responseText = urllib2.urlopen(requestText).read()
-	return requestText
+	r = requests.post(basicUrl+token+"sendMessage", params=parameters)
+	return r.text
 
 def sendAudio(chat_id, file_id, title):
-	parameters = {'chat_id':chat_id, 'audio':file_id, 'title':title}
-	AudioData = urllib.urlencode(parameters)
-	requestAudio = urllib2.Request(basicUrl+token+"sendAudio", AudioData)
-	responseAudio = urllib2.urlopen(requestAudio)
-	result = responseAudio.read()
-	return requestAudio
+	files = {"audio":open(filesPath+file_id, "rb")}
+	parameters = {'chat_id':chat_id, 'title':title}
+	r = requests.post(basicUrl+token+"sendAudio", files=files, params=parameters)
+	return r.text
+
 
 def sendPhoto(chat_id, file_id, caption):
 	parameters = {'chat_id':chat_id,'caption':caption,'photo':file_id}
-	PhotoData = urllib.urlencode(parameters)
-	requestPhoto = urllib2.Request(basicUrl+token+"sendPhoto", PhotoData)
-	responsePhoto = urllib2.urlopen(requestPhoto)
-	result = responsePhoto.read()
-	return responsePhoto
+	files = {"photo":open(filesPath+file_id, "rb")}
+	r = requests.post(basicUrl+token+"sendPhoto", files=files, params=parameters)
+	return r.text
 
 last_update_id = 0
 while True:
+	phrasesFile = open("phrases.json")
+	phrases = json.load(phrasesFile)
+	phrasesFile.close()
 	
 	logFile = open("chatLog.txt", "a+")
 	
 	#get the unconfired updates and confirm the past updates
 	#jsonUpdate = urllib2.urlopen(basicUrl+token+"getUpdates?offset="+str(last_update_id+1)+"&timeout=100").read()
 	values = {'offset':last_update_id+1, 'timeout':100}
-	data = urllib.urlencode(values)
+	"""data = urllib.urlencode(values)
 	request = urllib2.Request(basicUrl+token+"getUpdates", data)
 	response = urllib2.urlopen(request)
-	jsonUpdate = response.read()
+	jsonUpdate = response.read()"""
+
+	response = requests.post(basicUrl+token+"getUpdates", values).text
 	
-	updates = json.loads(jsonUpdate)
+	updates = json.loads(response)
 	result = updates['result']
 
 	#write the messages in the log file
-	if jsonUpdate!= "{\"ok\":true,\"result\":[]}":
-		logFile.write(jsonUpdate+"\n")
+	if response!= "{\"ok\":true,\"result\":[]}":
+		logFile.write(response+"\n")
 	logFile.close()
 	
 	#iterate trought the message if any
@@ -71,17 +71,18 @@ while True:
 					info = phrases['output'][w]
 					messageType = info['type']
 					if messageType=="text":
-						sendMessage(chat_id, info['text'])
+						contentLen = len(info['content'])-1
+						sendMessage(chat_id, info['content'][randint(0, contentLen)]['text'])
 					elif messageType=="photo":
-						sendPhoto(chat_id, info['file_id'], info['caption'])
+						contentLen = len(info['content'])-1
+						randomInteger = randint(0, contentLen)
+						sendPhoto(chat_id, info['content'][randomInteger]['file_id'], info['content'][randomInteger]['caption'])
 					if messageType=="audio":
-						sendAudio(chat_id, "BQADBAADCgADZUfwCecAAfH4y3_WQQI", info['title'])
+						contentLen = len(info['content'])-1
+						randomInteger = randint(0, contentLen)
+						sendAudio(chat_id, info['content'][randomInteger]['file_id'], info['content'][randomInteger]['title'])
 					print "responded to {}".format(senderName)
 
-			"""if "musica" in messageList:
-				print sendAudio(chat_id, "BQADBAADBAADZUfwCb0aUdI8rzgvAg", "Il canto del Capro")
-			else:
-				sendMessage(chat_id, "Ciao {0}".format(senderName))"""
 		else:
 			sendMessage(chat_id, "manda solo testo")
 		#send a message to stefano
