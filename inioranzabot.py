@@ -7,6 +7,9 @@ token = "163052614:AAHAgAjpPkSGUOYv_fu1m9XcxDXyhDhsr2I/"
 
 filesPath = "files/"
 
+def sendChatAction(chat_id, action):
+	r = requests.post(basicUrl+token+"sendChatAction", params={"chat_id":chat_id, "action":action})
+	return r.text
 
 def sendMessage(chat_id, text):
 	parameters = {'chat_id':chat_id, 'text':text}
@@ -76,10 +79,12 @@ while True:
 					elif messageType=="photo":
 						contentLen = len(info['content'])-1
 						randomInteger = randint(0, contentLen)
+						sendChatAction(chat_id, "upload_photo")
 						sendPhoto(chat_id, info['content'][randomInteger]['file_id'], info['content'][randomInteger]['caption'])
 					if messageType=="audio":
 						contentLen = len(info['content'])-1
 						randomInteger = randint(0, contentLen)
+						sendChatAction(chat_id, "upload_audio")
 						sendAudio(chat_id, info['content'][randomInteger]['file_id'], info['content'][randomInteger]['title'])
 					print "responded to {}".format(senderName)
 
