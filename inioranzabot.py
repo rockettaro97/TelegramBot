@@ -19,14 +19,16 @@ def sendAudio(chat_id, file_id, title):
 	parameters = {'chat_id':chat_id, 'audio':file_id, 'title':title}
 	AudioData = urllib.urlencode(parameters)
 	requestAudio = urllib2.Request(basicUrl+token+"sendAudio", AudioData)
-	responseAudio = urllib2.urlopen(requestAudio).read()
+	responseAudio = urllib2.urlopen(requestAudio)
+	result = responseAudio.read()
 	return requestAudio
 
 def sendPhoto(chat_id, file_id, caption):
-	parameters = {'chat_id':chat_id, 'caption':caption, 'file_id':file_id}
+	parameters = {'chat_id':chat_id,'caption':caption,'photo':file_id}
 	PhotoData = urllib.urlencode(parameters)
 	requestPhoto = urllib2.Request(basicUrl+token+"sendPhoto", PhotoData)
-	responsePhoto = urllib2.urlopen(requestPhoto).read()
+	responsePhoto = urllib2.urlopen(requestPhoto)
+	result = responsePhoto.read()
 	return responsePhoto
 
 last_update_id = 0
@@ -62,23 +64,29 @@ while True:
 			message = i['message']['text']
 			messageList = message.lower().split(" ")
 
-			print phrases['output'][0]['musica']
+			#print phrases['output'][0]['musica']
 
 			for w in messageList:
-				if w in phrases['output'][0]:
-					print w
+				if w in phrases['output']:
+					info = phrases['output'][w]
+					messageType = info['type']
+					if messageType=="text":
+						sendMessage(chat_id, info['text'])
+					elif messageType=="photo":
+						sendPhoto(chat_id, info['file_id'], info['caption'])
+					if messageType=="audio":
+						sendAudio(chat_id, "BQADBAADCgADZUfwCecAAfH4y3_WQQI", info['title'])
+					print "responded to {}".format(senderName)
 
-			if "musica" in messageList:
-				sendAudio(chat_id, "BQADBAADBAADZUfwCb0aUdI8rzgvAg", "Il canto del Capro")
-				print "test"
+			"""if "musica" in messageList:
+				print sendAudio(chat_id, "BQADBAADBAADZUfwCb0aUdI8rzgvAg", "Il canto del Capro")
 			else:
-				sendMessage(chat_id, "Ciao {0}".format(senderName))
+				sendMessage(chat_id, "Ciao {0}".format(senderName))"""
 		else:
 			sendMessage(chat_id, "manda solo testo")
 		#send a message to stefano
 		#confirm = urllib2.urlopen(basicUrl+token+"sendMessage?chat_id={0}&text=responded to {1} who send {2}".format("166741861", senderName, message)).read()
 
-		print "responded to {}".format(senderName)
 		
 		if update_id>last_update_id:
 			last_update_id = update_id

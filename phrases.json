@@ -1,26 +1,23 @@
 {
-  "output": [
-    {
+  "output":{
       "musica": {
         "type":"audio",
         "title":"Il canto del Capro",
-        "file_id":"AwADBAADBwADZUfwCThRKbS1U25Ag"
-      }
-      
-    },
-    {"foto":{
+        "file_id":"BQADBAADCgADZUfwCecAAfH4y3_WQQI"
+      },
+    "foto":{
     	"type":"photo",
-    	"caption":"immagine di prova",
-    	"file_id":"AgADBAADqacxG2VH8AmtU9AKu__Wi2C3jzAABITGl3YlUnBY4IcCAAEC"
-     }
-     
-    },
-    {
+    	"caption":"ecco a te",
+    	"file_id":"AgADBAADqqcxG2VH8Ak4mX2dz7phXHZDojAABGKKXAVrxuIYkOMBAAEC"
+     },
     	"perla":{
     		"type":"text",
     		"text":"Meglio un figlio in guerra che l'alcol per terra"
-    	}
+    	},
+      "/info":{
+        "type":"text",
+        "text":"prova a scrivere:\n\taudio\n\tfoto\n\tperla"
+      }
     	
     }
-  ]
 }
