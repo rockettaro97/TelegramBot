@@ -39,6 +39,14 @@
           "text": "prova a scrivere:\n\taudio\n\tfoto\n\tperla"
         }
       ]
+    },
+    "/source":{
+      "type":"text",
+      "content": [
+        {
+          "text":"https://github.com/stefanochi/TelegramBot"
+        }
+      ]
     }
   }
 }
