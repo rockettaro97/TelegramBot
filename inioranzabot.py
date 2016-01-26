@@ -40,11 +40,7 @@ while True:
 	#get the unconfired updates and confirm the past updates
 	#jsonUpdate = urllib2.urlopen(basicUrl+token+"getUpdates?offset="+str(last_update_id+1)+"&timeout=100").read()
 	values = {'offset':last_update_id+1, 'timeout':100}
-	"""data = urllib.urlencode(values)
-	request = urllib2.Request(basicUrl+token+"getUpdates", data)
-	response = urllib2.urlopen(request)
-	jsonUpdate = response.read()"""
-
+	
 	response = requests.post(basicUrl+token+"getUpdates", values).text
 	
 	updates = json.loads(response)
